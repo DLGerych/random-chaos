@@ -1,0 +1,20 @@
+# macOS junk
+.DS_Store
+
+# VS Code settings (if you use VS Code)
+.vscode/
+
+# Temporary editor swap files
+*.swp
+*.swo
+
+# Any local test servers / logs you might generate
+*.log
+
+# If you ever use Python's http.server and it auto-creates cache folders
+__pycache__/
+
+# If you later add Node tooling (optional):
+node_modules/
+dist/
+build/

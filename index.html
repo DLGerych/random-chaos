@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+    <!-- Theme colors -->
+    <meta name="theme-color" content="#4a90e2">
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#4a90e2">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1a1a1a">
+
+    <!-- App info -->
+    <title>Chaos Picker</title>
+    <meta name="description" content="Team management and random picker app for organizing players and generating scrimmage teams">
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.webmanifest">
+
+    <!-- iOS-specific meta tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Chaos Picker">
+
+    <!-- iOS icons -->
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect fill='%234a90e2' width='180' height='180' rx='40'/%3E%3Ctext x='90' y='125' font-size='95' text-anchor='middle' fill='white'%3E🎲%3C/text%3E%3C/svg%3E">
+    <link rel="apple-touch-icon" sizes="180x180" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect fill='%234a90e2' width='180' height='180' rx='40'/%3E%3Ctext x='90' y='125' font-size='95' text-anchor='middle' fill='white'%3E🎲%3C/text%3E%3C/svg%3E">
+
+    <!-- iOS splash screens -->
+    <link rel="apple-touch-startup-image" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1242 2688'%3E%3Crect fill='%234a90e2' width='1242' height='2688'/%3E%3C/svg%3E">
+
+    <!-- Standard favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='85' font-size='85'%3E🎲%3C/text%3E%3C/svg%3E">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Home Screen -->
+        <div id="home-screen" class="screen active">
+            <header>
+                <h1>Chaos Picker</h1>
+            </header>
+            <main>
+                <div class="button-grid">
+                    <button class="nav-button" data-screen="players-screen">
+                        <span class="icon">👥</span>
+                        <span class="label">Manage Players</span>
+                    </button>
+                    <button class="nav-button" data-screen="picker-screen">
+                        <span class="icon">🎲</span>
+                        <span class="label">Random Picker</span>
+                    </button>
+                    <button class="nav-button" data-screen="scrimmage-screen">
+                        <span class="icon">🏀</span>
+                        <span class="label">Scrimmage Generator</span>
+                    </button>
+                </div>
+            </main>
+        </div>
+
+        <!-- Manage Players Screen -->
+        <div id="players-screen" class="screen">
+            <header>
+                <button class="back-button" data-screen="home-screen">← Back</button>
+                <h1>Manage Players</h1>
+            </header>
+            <main>
+                <div class="add-player-form">
+                    <input
+                        type="text"
+                        id="player-name-input"
+                        placeholder="Player name"
+                        autocomplete="off"
+                    >
+                    <select id="player-position-input">
+                        <option value="Guard">Guard</option>
+                        <option value="Forward">Forward</option>
+                    </select>
+                    <button id="add-player-btn" class="btn-primary">Add Player</button>
+                </div>
+
+                <div id="players-list-container">
+                    <div id="players-list"></div>
+                </div>
+
+                <button class="btn-secondary menu-button" data-screen="home-screen">Back to Menu</button>
+            </main>
+        </div>
+
+        <!-- Random Picker Screen -->
+        <div id="picker-screen" class="screen">
+            <header>
+                <button class="back-button" data-screen="home-screen">← Back</button>
+                <h1>Random Picker</h1>
+            </header>
+            <main>
+                <div id="picker-controls-sticky" class="picker-controls-sticky">
+                    <div id="picker-setup" class="picker-section">
+                        <div class="picker-control">
+                            <label for="pick-count-select">How many players to pick:</label>
+                            <select id="pick-count-select"></select>
+                        </div>
+                        <button id="draw-names-btn" class="btn-primary btn-large">Draw Names</button>
+                    </div>
+                </div>
+
+                <div id="picker-results" class="picker-section hidden">
+                    <h2>Selected Players</h2>
+                    <div id="selected-players-list"></div>
+                    <div class="picker-actions">
+                        <button id="confirm-btn" class="btn-primary">Confirm</button>
+                        <button id="draw-again-btn" class="btn-secondary">Draw Again</button>
+                    </div>
+                </div>
+
+                <div class="picker-bottom-actions">
+                    <button id="reset-counts-btn" class="btn-secondary btn-large">Reset All Counts</button>
+                    <button class="btn-secondary menu-button" data-screen="home-screen">Back to Menu</button>
+                </div>
+            </main>
+        </div>
+
+        <!-- Scrimmage Generator Screen -->
+        <div id="scrimmage-screen" class="screen">
+            <header>
+                <button class="back-button" data-screen="home-screen">← Back</button>
+                <h1>Scrimmage Generator</h1>
+            </header>
+            <main>
+                <button id="generate-scrimmage-btn" class="btn-primary btn-large">Generate Teams</button>
+
+                <div id="scrimmage-teams" class="hidden">
+                    <div class="team-container">
+                        <div class="team-card team-a">
+                            <h2>Team A</h2>
+                            <div class="position-group">
+                                <h3>Guards</h3>
+                                <div id="team-a-guards" class="player-slots"></div>
+                            </div>
+                            <div class="position-group">
+                                <h3>Forwards</h3>
+                                <div id="team-a-forwards" class="player-slots"></div>
+                            </div>
+                        </div>
+
+                        <div class="team-card team-b">
+                            <h2>Team B</h2>
+                            <div class="position-group">
+                                <h3>Guards</h3>
+                                <div id="team-b-guards" class="player-slots"></div>
+                            </div>
+                            <div class="position-group">
+                                <h3>Forwards</h3>
+                                <div id="team-b-forwards" class="player-slots"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button id="reselect-teams-btn" class="btn-secondary btn-large">Re-select</button>
+                </div>
+
+                <button class="btn-secondary menu-button" data-screen="home-screen">Back to Menu</button>
+            </main>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
