@@ -1,6 +1,6 @@
 {
-  "name": "Chaos Picker",
-  "short_name": "Chaos Picker",
+  "name": "Random Chaos",
+  "short_name": "Random Chaos",
   "description": "Team management and random picker app for organizing players and generating scrimmage teams",
   "start_url": "/",
   "scope": "/",
