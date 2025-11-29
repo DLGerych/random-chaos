@@ -81,11 +81,24 @@ class PlayerManager {
     loadPlayers() {
         const stored = localStorage.getItem('chaos-picker-players');
         const players = stored ? JSON.parse(stored) : [];
-        // Ensure all players have isActive field (default to true for existing players)
-        return players.map(player => ({
-            ...player,
-            isActive: player.isActive !== undefined ? player.isActive : true
-        }));
+        // Ensure all players have isActive field and positionCounts
+        return players.map(player => {
+            // Migrate from old confirmCount to positionCounts
+            if (player.confirmCount !== undefined && !player.positionCounts) {
+                player.positionCounts = {};
+                // Migrate old count to position 1 for backwards compatibility
+                if (player.confirmCount > 0) {
+                    player.positionCounts[1] = player.confirmCount;
+                }
+                delete player.confirmCount;
+            }
+
+            return {
+                ...player,
+                isActive: player.isActive !== undefined ? player.isActive : true,
+                positionCounts: player.positionCounts || {}
+            };
+        });
     }
 
     savePlayers() {
@@ -108,7 +121,7 @@ class PlayerManager {
             id: Date.now().toString(),
             name: name,
             position: position,
-            confirmCount: 0,
+            positionCounts: {},
             isActive: true
         };
 
@@ -145,6 +158,11 @@ class PlayerManager {
         }
     }
 
+    getTotalCount(player) {
+        if (!player.positionCounts) return 0;
+        return Object.values(player.positionCounts).reduce((sum, count) => sum + count, 0);
+    }
+
     render() {
         const container = document.getElementById('players-list');
 
@@ -153,11 +171,13 @@ class PlayerManager {
             return;
         }
 
-        const listHTML = this.players.map(player => `
+        const listHTML = this.players.map(player => {
+            const totalCount = this.getTotalCount(player);
+            return `
             <div class="player-item ${player.isActive ? '' : 'inactive'}" data-id="${player.id}">
                 <div class="player-info">
                     <span class="player-name">${this.escapeHtml(player.name)}</span>
-                    <span class="player-count">Confirmed: ${player.confirmCount}</span>
+                    <span class="player-count">Confirmed: ${totalCount}</span>
                 </div>
                 <div class="player-controls">
                     <button class="toggle-active-btn ${player.isActive ? 'active' : 'inactive'}" data-id="${player.id}">
@@ -170,7 +190,8 @@ class PlayerManager {
                     <button class="delete-btn" data-id="${player.id}">Delete</button>
                 </div>
             </div>
-        `).join('');
+        `;
+        }).join('');
 
         container.innerHTML = listHTML;
 
@@ -265,38 +286,48 @@ class RandomPicker {
         const players = this.playerManager.loadPlayers();
         const activePlayers = players.filter(p => p.isActive);
 
-        // Group players by confirmCount
-        const playersByCount = {};
-        activePlayers.forEach(player => {
-            const count = player.confirmCount;
-            if (!playersByCount[count]) {
-                playersByCount[count] = [];
-            }
-            playersByCount[count].push(player);
-        });
-
-        // Get sorted count tiers (lowest to highest)
-        const countTiers = Object.keys(playersByCount).map(Number).sort((a, b) => a - b);
-
-        // Select players tier by tier
+        // selectedPlayers will now store {player, position} objects
         this.selectedPlayers = [];
-        let remaining = requestedCount;
+        const selectedPlayerIds = new Set(); // Track which players have been selected to avoid duplicates
 
-        for (const tier of countTiers) {
-            if (remaining === 0) break;
+        // Select players for each position
+        for (let position = 1; position <= requestedCount; position++) {
+            // Get available players (not yet selected in this draw)
+            const availablePlayers = activePlayers.filter(p => !selectedPlayerIds.has(p.id));
 
-            const tieredPlayers = playersByCount[tier];
-
-            if (tieredPlayers.length <= remaining) {
-                // Take all players from this tier
-                this.selectedPlayers.push(...tieredPlayers);
-                remaining -= tieredPlayers.length;
-            } else {
-                // Randomly select from this tier
-                const shuffled = this.shuffleArray([...tieredPlayers]);
-                this.selectedPlayers.push(...shuffled.slice(0, remaining));
-                remaining = 0;
+            if (availablePlayers.length === 0) {
+                // No more players available
+                break;
             }
+
+            // Group available players by their count for this specific position
+            const playersByCount = {};
+            availablePlayers.forEach(player => {
+                const count = player.positionCounts[position] || 0;
+                if (!playersByCount[count]) {
+                    playersByCount[count] = [];
+                }
+                playersByCount[count].push(player);
+            });
+
+            // Get sorted count tiers (lowest to highest)
+            const countTiers = Object.keys(playersByCount).map(Number).sort((a, b) => a - b);
+
+            // Select one player from the lowest tier
+            const lowestTier = countTiers[0];
+            const tieredPlayers = playersByCount[lowestTier];
+
+            // Randomly select one player from the lowest tier
+            const selectedPlayer = tieredPlayers[Math.floor(Math.random() * tieredPlayers.length)];
+
+            // Add to selected players with position info
+            this.selectedPlayers.push({
+                player: selectedPlayer,
+                position: position
+            });
+
+            // Mark this player as selected
+            selectedPlayerIds.add(selectedPlayer.id);
         }
 
         // Re-enable the Confirm button for the new draw
@@ -330,19 +361,21 @@ class RandomPicker {
         const players = this.playerManager.loadPlayers();
 
         const container = document.getElementById('selected-players-list');
-        const listHTML = this.selectedPlayers.map((selectedPlayer, index) => {
+        const listHTML = this.selectedPlayers.map((selection) => {
             // Find the current player data to get the latest count
-            const currentPlayer = players.find(p => p.id === selectedPlayer.id);
-            const currentCount = currentPlayer ? currentPlayer.confirmCount : selectedPlayer.confirmCount;
+            const currentPlayer = players.find(p => p.id === selection.player.id);
+            const positionCount = currentPlayer && currentPlayer.positionCounts
+                ? (currentPlayer.positionCounts[selection.position] || 0)
+                : 0;
 
             return `
                 <div class="selected-player-item">
-                    <span class="player-number">${index + 1}</span>
+                    <span class="player-number">${selection.position}</span>
                     <div class="selected-player-info">
-                        <span class="selected-player-name">${this.escapeHtml(selectedPlayer.name)}</span>
-                        <span class="selected-player-position">${selectedPlayer.position}</span>
+                        <span class="selected-player-name">${this.escapeHtml(selection.player.name)}</span>
+                        <span class="selected-player-position">${selection.player.position}</span>
                     </div>
-                    <span class="selected-player-count">Count: ${currentCount}</span>
+                    <span class="selected-player-count">Pos ${selection.position}: ${positionCount}</span>
                 </div>
             `;
         }).join('');
@@ -351,13 +384,17 @@ class RandomPicker {
     }
 
     confirmSelection() {
-        // Update confirmCount for selected players
+        // Update positionCounts for selected players
         const players = this.playerManager.loadPlayers();
 
-        this.selectedPlayers.forEach(selectedPlayer => {
-            const player = players.find(p => p.id === selectedPlayer.id);
+        this.selectedPlayers.forEach(selection => {
+            const player = players.find(p => p.id === selection.player.id);
             if (player) {
-                player.confirmCount += 1;
+                // Increment count for this specific position
+                if (!player.positionCounts[selection.position]) {
+                    player.positionCounts[selection.position] = 0;
+                }
+                player.positionCounts[selection.position] += 1;
             }
         });
 
@@ -392,10 +429,10 @@ class RandomPicker {
             return;
         }
 
-        // Reset confirmCount for all players
+        // Reset positionCounts for all players
         const players = this.playerManager.loadPlayers();
         players.forEach(player => {
-            player.confirmCount = 0;
+            player.positionCounts = {};
         });
 
         // Save updated players
