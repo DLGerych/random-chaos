@@ -28,6 +28,13 @@ class Navigation {
             }
         });
 
+        // Check for deep link from URL parameters (for PWA shortcuts)
+        const urlParams = new URLSearchParams(window.location.search);
+        const screenParam = urlParams.get('screen');
+        if (screenParam) {
+            this.currentScreen = screenParam;
+        }
+
         // Show initial screen
         this.showScreen(this.currentScreen);
     }

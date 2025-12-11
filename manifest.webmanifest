@@ -44,7 +44,7 @@
       "name": "Manage Players",
       "short_name": "Players",
       "description": "Add and manage your player roster",
-      "url": "/?screen=players",
+      "url": "/?screen=players-screen",
       "icons": [
         {
           "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'%3E%3Ctext x='48' y='70' font-size='60' text-anchor='middle'%3E👥%3C/text%3E%3C/svg%3E",
@@ -56,7 +56,7 @@
       "name": "Random Picker",
       "short_name": "Picker",
       "description": "Randomly select players",
-      "url": "/?screen=picker",
+      "url": "/?screen=picker-screen",
       "icons": [
         {
           "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'%3E%3Ctext x='48' y='70' font-size='60' text-anchor='middle'%3E🎲%3C/text%3E%3C/svg%3E",
@@ -68,10 +68,34 @@
       "name": "Scrimmage Generator",
       "short_name": "Scrimmage",
       "description": "Generate balanced teams",
-      "url": "/?screen=scrimmage",
+      "url": "/?screen=scrimmage-screen",
       "icons": [
         {
           "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'%3E%3Ctext x='48' y='70' font-size='60' text-anchor='middle'%3E🏀%3C/text%3E%3C/svg%3E",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Loose Ball Drill",
+      "short_name": "Loose Ball",
+      "description": "Track loose ball drill performance",
+      "url": "/?screen=looseball-screen",
+      "icons": [
+        {
+          "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'%3E%3Ctext x='48' y='70' font-size='60' text-anchor='middle'%3E⚡%3C/text%3E%3C/svg%3E",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Layup Lines",
+      "short_name": "Layup Lines",
+      "description": "Track layup lines statistics",
+      "url": "/?screen=layuplines-screen",
+      "icons": [
+        {
+          "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'%3E%3Ctext x='48' y='70' font-size='60' text-anchor='middle'%3E🏃%3C/text%3E%3C/svg%3E",
           "sizes": "96x96"
         }
       ]
