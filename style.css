@@ -736,10 +736,428 @@ main {
     opacity: 0.8;
 }
 
+/* Sitting Out Section */
+.sitting-out-section {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background-color: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+}
+
+.sitting-out-section h3 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color: var(--text-secondary);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+#sitting-out-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.sitting-out-player {
+    background-color: var(--background);
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.sitting-out-name {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--text-primary);
+}
+
+.sitting-out-position {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
 /* Responsive adjustments for scrimmage */
 @media (max-width: 700px) {
     .team-container {
         grid-template-columns: 1fr;
+    }
+}
+
+/* Loose Ball Drill Screen */
+.looseball-section {
+    margin-bottom: 2rem;
+}
+
+.looseball-section.hidden {
+    display: none;
+}
+
+.looseball-section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+    font-weight: 700;
+}
+
+#looseball-players-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.looseball-player-btn {
+    background-color: var(--surface);
+    border: 2px solid var(--primary-color);
+    border-radius: 12px;
+    padding: 1.5rem;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--text-primary);
+    min-height: 64px;
+}
+
+.looseball-player-btn:hover {
+    background-color: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px var(--shadow);
+}
+
+.looseball-player-btn:active {
+    transform: translateY(0);
+}
+
+.looseball-player-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: var(--background);
+}
+
+.looseball-player-btn:disabled:hover {
+    background-color: var(--background);
+    transform: none;
+    box-shadow: none;
+}
+
+.looseball-matchup {
+    background-color: var(--surface);
+    border: 3px solid var(--primary-color);
+    border-radius: 16px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    box-shadow: 0 4px 12px var(--shadow);
+}
+
+.looseball-player-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.looseball-role {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.looseball-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    text-align: center;
+}
+
+.looseball-vs {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    flex-shrink: 0;
+}
+
+.looseball-actions {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.looseball-actions button {
+    flex: 1;
+}
+
+#looseball-stats-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.looseball-stat-item {
+    background-color: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1rem;
+    align-items: center;
+    box-shadow: 0 1px 3px var(--shadow);
+}
+
+.looseball-stat-name {
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: var(--text-primary);
+}
+
+.looseball-stat-details {
+    display: flex;
+    gap: 1.5rem;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    flex-wrap: wrap;
+}
+
+.looseball-stat-item-detail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.looseball-stat-label {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.looseball-stat-value {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.looseball-bottom-actions {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* Responsive adjustments for loose ball */
+@media (max-width: 600px) {
+    .looseball-matchup {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .looseball-vs {
+        font-size: 1.5rem;
+    }
+
+    .looseball-actions {
+        flex-direction: column;
+    }
+
+    .looseball-stat-item {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+
+    .looseball-stat-details {
+        justify-content: space-around;
+    }
+}
+
+/* Layup Lines Screen */
+.layuplines-section {
+    margin-bottom: 2rem;
+}
+
+.layuplines-section.hidden {
+    display: none;
+}
+
+.layuplines-section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+    font-weight: 700;
+}
+
+#layuplines-players-section {
+    margin-bottom: 2rem;
+}
+
+#layuplines-players-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.layuplines-player-item {
+    min-height: 64px;
+}
+
+.layuplines-player-btn {
+    background-color: var(--surface);
+    border: 2px solid var(--primary-color);
+    border-radius: 12px;
+    padding: 1.5rem;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--text-primary);
+    min-height: 64px;
+    width: 100%;
+}
+
+.layuplines-player-btn:hover {
+    background-color: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px var(--shadow);
+}
+
+.layuplines-player-btn:active {
+    transform: translateY(0);
+}
+
+.layuplines-action-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.layuplines-success-btn,
+.layuplines-fail-btn {
+    flex: 1;
+    border: none;
+    border-radius: 12px;
+    padding: 1.5rem;
+    font-size: 2rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    min-height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.layuplines-success-btn {
+    background-color: var(--success);
+    color: white;
+}
+
+.layuplines-success-btn:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px var(--shadow);
+}
+
+.layuplines-success-btn:active {
+    transform: translateY(0);
+}
+
+.layuplines-fail-btn {
+    background-color: var(--danger);
+    color: white;
+}
+
+.layuplines-fail-btn:hover {
+    background-color: var(--danger-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px var(--shadow);
+}
+
+.layuplines-fail-btn:active {
+    transform: translateY(0);
+}
+
+.layuplines-icon {
+    font-weight: 700;
+}
+
+#layuplines-stats-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.layuplines-stat-item {
+    background-color: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1rem;
+    align-items: center;
+    box-shadow: 0 1px 3px var(--shadow);
+}
+
+.layuplines-stat-name {
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: var(--text-primary);
+}
+
+.layuplines-stat-details {
+    display: flex;
+    gap: 1.5rem;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    flex-wrap: wrap;
+}
+
+.layuplines-stat-item-detail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.layuplines-stat-label {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.layuplines-stat-value {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.layuplines-bottom-actions {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* Responsive adjustments for layup lines */
+@media (max-width: 600px) {
+    .layuplines-stat-item {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+
+    .layuplines-stat-details {
+        justify-content: space-around;
     }
 }
 

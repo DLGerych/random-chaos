@@ -55,6 +55,14 @@
                         <span class="icon">🏀</span>
                         <span class="label">Scrimmage Generator</span>
                     </button>
+                    <button class="nav-button" data-screen="looseball-screen">
+                        <span class="icon">⚡</span>
+                        <span class="label">Loose Ball</span>
+                    </button>
+                    <button class="nav-button" data-screen="layuplines-screen">
+                        <span class="icon">🏃</span>
+                        <span class="label">Layup Lines</span>
+                    </button>
                 </div>
             </main>
         </div>
@@ -76,6 +84,7 @@
                     <select id="player-position-input">
                         <option value="Guard">Guard</option>
                         <option value="Forward">Forward</option>
+                        <option value="Guard/Forward">Guard/Forward</option>
                     </select>
                     <button id="add-player-btn" class="btn-primary">Add Player</button>
                 </div>
@@ -157,10 +166,83 @@
                         </div>
                     </div>
 
+                    <div id="sitting-out-section" class="sitting-out-section">
+                        <h3>Sitting Out</h3>
+                        <div id="sitting-out-list"></div>
+                    </div>
+
                     <button id="reselect-teams-btn" class="btn-secondary btn-large">Re-select</button>
                 </div>
 
                 <button class="btn-secondary menu-button" data-screen="home-screen">Back to Menu</button>
+            </main>
+        </div>
+
+        <!-- Layup Lines Screen -->
+        <div id="layuplines-screen" class="screen">
+            <header>
+                <button class="back-button" data-screen="home-screen">← Back</button>
+                <h1>Layup Lines</h1>
+            </header>
+            <main>
+                <div id="layuplines-players-section">
+                    <div id="layuplines-players-list"></div>
+                </div>
+
+                <div id="layuplines-stats-section" class="layuplines-section">
+                    <h2>Player Stats</h2>
+                    <div id="layuplines-stats-list"></div>
+                </div>
+
+                <div class="layuplines-bottom-actions">
+                    <button id="layuplines-reset-stats-btn" class="btn-secondary btn-large">Reset All Stats</button>
+                    <button class="btn-secondary menu-button" data-screen="home-screen">Back to Menu</button>
+                </div>
+            </main>
+        </div>
+
+        <!-- Loose Ball Drill Screen -->
+        <div id="looseball-screen" class="screen">
+            <header>
+                <button class="back-button" data-screen="home-screen">← Back</button>
+                <h1>Loose Ball</h1>
+            </header>
+            <main>
+                <button id="looseball-new-players-btn" class="btn-primary btn-large">New Players</button>
+
+                <div id="looseball-players-section" class="looseball-section hidden">
+                    <h2>Select Offensive Player</h2>
+                    <div id="looseball-players-list"></div>
+                </div>
+
+                <div id="looseball-result-section" class="looseball-section hidden">
+                    <div class="looseball-matchup">
+                        <div class="looseball-player-info">
+                            <span class="looseball-role">Offense</span>
+                            <span id="looseball-offense-name" class="looseball-name"></span>
+                        </div>
+                        <div class="looseball-vs">VS</div>
+                        <div class="looseball-player-info">
+                            <span class="looseball-role">Defense</span>
+                            <span id="looseball-defense-name" class="looseball-name"></span>
+                        </div>
+                    </div>
+
+                    <div class="looseball-actions">
+                        <button id="looseball-make-btn" class="btn-primary btn-large">Make</button>
+                        <button id="looseball-miss-btn" class="btn-secondary btn-large">Miss</button>
+                    </div>
+                </div>
+
+                <div id="looseball-stats-section" class="looseball-section">
+                    <h2>Player Stats</h2>
+                    <div id="looseball-stats-list"></div>
+                </div>
+
+                <div class="looseball-bottom-actions">
+                    <button id="looseball-reset-stats-btn" class="btn-secondary btn-large">Reset All Stats</button>
+                    <button class="btn-secondary menu-button" data-screen="home-screen">Back to Menu</button>
+                </div>
             </main>
         </div>
     </div>
