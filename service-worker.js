@@ -5,11 +5,11 @@ const RUNTIME_CACHE = `chaos-picker-runtime-${VERSION}`;
 
 // Core app files that must be cached
 const CORE_ASSETS = [
-    '/',
-    '/index.html',
-    '/app.js',
-    '/style.css',
-    '/manifest.webmanifest'
+    '/random-chaos/',
+    '/random-chaos/index.html',
+    '/random-chaos/app.js',
+    '/random-chaos/style.css',
+    '/random-chaos/manifest.webmanifest'
 ];
 
 // Maximum age for runtime cache (7 days)
@@ -98,7 +98,7 @@ self.addEventListener('fetch', (event) => {
 
                 // Return offline fallback for navigation requests
                 if (request.mode === 'navigate') {
-                    return caches.match('/index.html');
+                    return caches.match('/random-chaos/index.html');
                 }
 
                 // For other requests, return a basic offline response
